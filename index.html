@@ -584,23 +584,38 @@
     <script type="text/javascript"></script>
 
     <script>
-      if ('Notification' in window) {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
+    </script>
+
+    <script>
+      if ('Notification' in window && 'serviceWorker' in navigator) {
         Notification.requestPermission().then(permission => {
           if (permission === 'granted') {
-            const sendNotification = () => {
-              new Notification('Reminder', {
-                body: 'This is your scheduled push notification!',
-                icon: './images/logo.png'
-              });
-            };
-    
-            setInterval(sendNotification, 30000);
+            navigator.serviceWorker.ready.then(registration => {
+              const sendNotification = () => {
+                registration.showNotification('Reminder', {
+                  body: 'This is your scheduled push notification!',
+                  icon: './images/logo.png',
+                });
+              };
+
+              // Send a notification every 30 seconds
+              setInterval(sendNotification, 30000);
+            });
           } else {
             console.log('Notification permission denied.');
           }
         });
       } else {
-        console.log('This browser does not support notifications.');
+        console.log('This browser does not support notifications or Service Workers.');
       }
     </script>
   </body>
