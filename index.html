@@ -582,5 +582,26 @@
     <script type="text/javascript" src="js/mdb.umd.min.js"></script>
     <!-- Custom scripts -->
     <script type="text/javascript"></script>
+
+    <script>
+      if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            const sendNotification = () => {
+              new Notification('Reminder', {
+                body: 'This is your scheduled push notification!',
+                icon: './images/logo.png'
+              });
+            };
+    
+            setInterval(sendNotification, 180000);
+          } else {
+            console.log('Notification permission denied.');
+          }
+        });
+      } else {
+        console.log('This browser does not support notifications.');
+      }
+    </script>
   </body>
 </html>

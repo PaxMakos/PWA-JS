@@ -2,6 +2,7 @@
   "dependencies": {
     "bootstrap": "^5.3.5",
     "mdb-ui-kit": "^9.0.0",
-    "pwa-asset-generator": "^8.0.4"
+    "pwa-asset-generator": "^8.0.4",
+    "web-push": "^3.6.7"
   }
 }
