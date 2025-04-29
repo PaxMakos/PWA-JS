@@ -75,3 +75,17 @@ self.addEventListener('fetch', (event) => {
         })
     );
 });
+
+self.addEventListener('push', (event) => {
+    const data = event.data ? event.data.json() : {};
+    const title = data.title || 'Default Title';
+    const options = {
+        body: data.body || 'Default body text',
+        icon: data.icon || './images/logo.png',
+        badge: data.badge || './images/logo.png',
+    };
+
+    event.waitUntil(
+        self.registration.showNotification(title, options)
+    );
+});
